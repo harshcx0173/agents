@@ -1,0 +1,29 @@
+{
+    "name": "content-agents-backend",
+    "version": "1.0.0",
+    "description": "Node.js Rewrite of Content Agents",
+    "main": "api.js",
+    "scripts": {
+        "start": "node start.js",
+        "start:api": "node api.js",
+        "start:agent1": "node agent_01_content_strategist.js",
+        "start:agent2": "node agent_02_blog_writer.js",
+        "start:agent3": "node agent_03_content_auditor.js",
+        "test:redis": "node test_redis.js"
+    },
+    "dependencies": {
+        "@google/generative-ai": "^0.24.1",
+        "@supabase/supabase-js": "^2.99.2",
+        "axios": "^1.13.6",
+        "concurrently": "^9.2.1",
+        "cors": "^2.8.6",
+        "dotenv": "^16.6.1",
+        "express": "^4.22.1",
+        "form-data": "2.5.4",
+        "groq-sdk": "^1.1.1",
+        "node-fetch": "^3.3.2",
+        "redis": "^4.7.1",
+        "replicate": "^1.4.0",
+        "socket.io": "^4.8.3"
+    }
+}
