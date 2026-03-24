@@ -129,7 +129,7 @@ async function runAgent01() {
     while (true) {
         await processTask();
         console.log('Agent 01: Sequence complete. Sleeping 4 hours...');
-        await new Promise(resolve => setTimeout(resolve, 1 * 60 * 60 * 1000));
+        await new Promise(resolve => setTimeout(resolve, 4 * 60 * 60 * 1000));
     }
     // while (true) {
     //     await processTask();
