@@ -31,7 +31,7 @@ async function logActivity(agentName, eventType, message, metadata = {}) {
 }
 
 async function fetchGSCData(url) {
-    console.log(`Agent 03: Simulating dynamic GSC data for ${url}...`);
+    // console.log(`Agent 03: Simulating dynamic GSC data for ${url}...`);
     return {
         avg_position: Number((Math.random() * 20 + 1).toFixed(1)), // 1.0 to 21.0
         clicks: Math.floor(Math.random() * 500),
@@ -43,7 +43,7 @@ async function fetchGSCData(url) {
 }
 
 function calculatePerformanceScore(gscData, seoScore) {
-    console.log('Agent 03: Calculating performance score...');
+    // console.log('Agent 03: Calculating performance score...');
     let score = 100;
     if (gscData.ctr < 3.0) score -= 15;
     if (gscData.avg_position > 10) score -= 20;
@@ -54,7 +54,7 @@ function calculatePerformanceScore(gscData, seoScore) {
 }
 
 async function createRewriteBrief(postId, postData, metrics, score) {
-    console.log(`Agent 03: Performance score ${score} < 60. Alerting for rewrite for ${postId}...`);
+    // console.log(`Agent 03: Performance score ${score} < 60. Alerting for rewrite for ${postId}...`);
 
     console.log(`Agent 03: Sending rewrite task back to Agent 02...`);
 
@@ -80,7 +80,7 @@ async function processAudit(postId) {
         const { data: responseData, error } = await supabase.from('content').select('*').eq('id', postId);
 
         if (error || !responseData || responseData.length === 0) {
-            console.log(`Agent 03: Post ${postId} not found!`);
+            // console.log(`Agent 03: Post ${postId} not found!`);
             return;
         }
 
@@ -91,7 +91,7 @@ async function processAudit(postId) {
         const metrics = await fetchGSCData(liveUrl);
         const score = calculatePerformanceScore(metrics, seoScore);
 
-        console.log(`Agent 03: Calculated score ${score} for post ${post.title}`);
+        // console.log(`Agent 03: Calculated score ${score} for post ${post.title}`);
 
         // ALWAYS RECORD AUDIT DATA
         await supabase.from('post_performance').insert({
@@ -107,7 +107,7 @@ async function processAudit(postId) {
             await createRewriteBrief(postId, post, metrics, score);
             await logActivity('Auditor (Agent 03)', 'ERROR', `SEO Alert! Low performance for: ${post.title}`, { score, postId });
         } else {
-            console.log("Agent 03: Score is 60 or higher. No rewrite needed.");
+            // console.log("Agent 03: Score is 60 or higher. No rewrite needed.");
             await logActivity('Auditor (Agent 03)', 'SUCCESS', `SEO Audit Complete for: ${post.title}`, { score, postId });
         }
     } catch (err) {
@@ -117,7 +117,7 @@ async function processAudit(postId) {
 }
 
 async function listenForEvents() {
-    console.log('Agent 03 - Content Auditor listening for events...');
+    // console.log('Agent 03 - Content Auditor listening for events...');
     if (!isValidRedisUrl(REDIS_URL)) {
         console.warn('Agent 03: Redis disabled — REDIS_URL invalid. Auditor will be inactive.');
         return;
@@ -142,7 +142,7 @@ async function listenForEvents() {
 }
 
 async function runPeriodicAudit() {
-    console.log('Agent 03: Starting periodic 4-hour SEO audit...');
+    // console.log('Agent 03: Starting periodic 4-hour SEO audit...');
     try {
         const { data: posts, error } = await supabase.from('content').select('id').eq('status', 'PUBLISHED');
         if (!error && posts) {
